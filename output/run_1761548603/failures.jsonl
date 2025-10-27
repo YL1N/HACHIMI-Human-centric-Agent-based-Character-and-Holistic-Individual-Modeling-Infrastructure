@@ -1,0 +1,189 @@
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 29, "error": "'choices'"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 66, "error": "轻量过滤不通过：价值观未见七维显式名词（至少缺大部分）"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 87, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 88, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 89, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 90, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 91, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 92, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 93, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 94, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 95, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 96, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 97, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 98, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 99, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 100, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 101, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 102, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 103, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 104, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 105, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 106, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 107, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 108, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 109, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 110, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 111, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 112, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 116, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 117, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 118, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 119, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 120, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 121, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 122, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 123, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 124, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 125, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 126, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 127, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 128, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 129, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 130, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 131, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 132, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 133, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 134, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 135, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 136, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 137, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 138, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 139, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 140, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 141, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 142, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 143, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 144, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 145, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 146, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 147, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 148, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 149, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 150, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 151, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 152, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 153, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 154, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 155, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 156, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 157, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 158, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 159, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 160, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 161, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 162, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 163, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 164, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 165, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 166, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 167, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 168, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 169, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 170, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 171, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 172, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 173, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 174, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 175, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 176, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 177, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 178, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 179, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 181, "error": "'choices'"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 182, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 183, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 184, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 185, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 186, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 187, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 188, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 189, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 190, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 191, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 192, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 193, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 194, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 195, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 196, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 197, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 198, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 199, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 200, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 201, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 202, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 203, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 204, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 205, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 206, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 207, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 208, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 209, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 210, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 211, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 212, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 213, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 214, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 215, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 216, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 217, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 218, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 219, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 220, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 221, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 222, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 223, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 224, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 225, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 226, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 227, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 228, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 229, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 230, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 231, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 232, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 233, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 234, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 235, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 236, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 237, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 238, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 239, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 240, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 241, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 242, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 243, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 244, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 245, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 246, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 247, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 248, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 249, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 250, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 251, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 252, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 253, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 254, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 255, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 256, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 257, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 258, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 259, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 260, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 261, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 262, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 263, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "男", "优势学科偏向": ["英语", "生物"]}, "sid": 264, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 265, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 266, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 267, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初三", "性别": "女", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 268, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "六年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 269, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "五年级", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 270, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初一", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 271, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "初二", "性别": "男", "优势学科偏向": ["数学", "物理", "化学", "信息技术"]}, "sid": 272, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高二", "性别": "女", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 273, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["英语", "生物"]}, "sid": 274, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["美术", "音乐", "体育"]}, "sid": 275, "error": "429 Client Error: Too Many Requests for url: http://49.51.37.239:3006/v1/chat/completions"}
+{"slot": {"年级": "高一", "性别": "男", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 285, "error": "'choices'"}
+{"slot": {"年级": "高三", "性别": "女", "优势学科偏向": ["语文", "历史", "政治", "地理"]}, "sid": 314, "error": "'choices'"}
