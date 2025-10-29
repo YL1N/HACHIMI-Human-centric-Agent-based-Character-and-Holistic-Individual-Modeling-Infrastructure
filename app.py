@@ -24,8 +24,8 @@ import streamlit as st
 import requests
 
 # ================== 你的 API（按要求硬编码） ==================
-AIECNU_API_KEY = "sk-FXzwhYkmwTgmjinGU5iBwYBhIwLbvLVcKtfwXsfLOkQcQbnm"
-AIECNU_BASE_URL = "http://49.51.37.239:3006/v1"
+AIECNU_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+AIECNU_BASE_URL = "http://xxxxxxxxxxx"
 MODEL = "gpt-4.1"
 HEADERS = {"Content-Type": "application/json", "Authorization": f"Bearer {AIECNU_API_KEY}"}
 
