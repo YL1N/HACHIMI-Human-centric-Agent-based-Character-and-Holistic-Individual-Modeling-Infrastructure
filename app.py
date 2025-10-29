@@ -11,9 +11,10 @@ app.py — 多智能体 · 实时多轮协作 · 学生画像批量生成（全�
 3) 暂停/继续：可随时暂停；暂停即作废“当前正在构建”的条目；继续自动找到最后一片并续写；
 4) 自动落盘：生成一条就写一条到本地 `output/<run_id>/students_chunk_{i}.jsonl`；50条为一片，自动换新文件；
 5) 体裁新标准：价值观/创造力/心理健康 强制“单段连续自然语言”；一致性与合规校验；
-6) 学术水平严格“四选一（固定文案）”；
-7) 新增：QuotaScheduler（年级×性别×优势学科簇）前置采样；轻量过滤；SimHash 去同质化；失败样本落盘。
-8) 新增：🖧 Agent 实时交互控制台（Prompt/Output/Issues 可视化）。
+6) 学术水平严格“四选一（固定文案）”；代理名允许多音节（姓1–2音节、名1–3音节，每节拼音+1~5声调，用下划线分隔）；
+7) QuotaScheduler（年级×性别×优势学科簇）前置采样；轻量过滤；SimHash 去同质化；失败样本落盘；
+8) 🖧 实时交互控制台（Prompt/Output/Issues 可视化）；
+9) ★ 新增：学术水平分布锚定 + 跨维度“乐观偏置”抑制（价值观/创造力/心理健康随锚自适应，并在轻量过滤中做硬阈校验）。
 """
 
 import json, re, random, math, os, glob, time, hashlib
@@ -40,11 +41,21 @@ LEVEL_SET_STRICT = {
     "差": "差：成绩全校排名后50%"
 }
 STRICT_ALLOWED_STRINGS = set(LEVEL_SET_STRICT.values())
+LEVELS = [
+    "高：成绩全校排名前10%",
+    "中：成绩全校排名前10%至30%",
+    "低：成绩全校排名前30%至50%",
+    "差：成绩全校排名后50%",
+]
+LEVEL_ALIAS = {
+    "高": LEVELS[0], "中": LEVELS[1], "低": LEVELS[2], "差": LEVELS[3],
+    "high": LEVELS[0], "mid": LEVELS[1], "medium": LEVELS[1], "low": LEVELS[2], "poor": LEVELS[3]
+}
 
-# 代理名校验正则（支持 2 节姓 / 1-3 节名，每节含 1–5 声调数字）
+# 代理名校验正则（支持 ≥2 音节；姓1-2节，名1-3节；每节[a-z]++声调1-5；姓与名之间一个下划线）
 AGENT_ID_REGEX = r"^(?:[a-z]+[1-5]){1,2}_(?:[a-z]+[1-5]){1,3}$"
 
-GRADES = ["五年级","六年级","初一","初二","初三","高一","高二","高三"]
+GRADES = ["一年级","二年级","三年级","四年级","五年级","六年级","初一","初二","初三","高一","高二","高三"]
 GENDERS = ["男","女"]
 SUBJ_CLUSTERS = {
     "理科向": ["数学","物理","化学","信息技术"],
@@ -60,7 +71,40 @@ def _st_rerun():
     except AttributeError:
         st.experimental_rerun()
 
-# ================== LLM 调用与解析（基础） ==================
+# ================== 工具：解析学术水平比例 ==================
+def _parse_level_mix(text: str) -> Dict[str, float]:
+    """
+    解析用户输入的学术水平配比字符串，如：
+      高:0.25,中:0.25,低:0.25,差:0.25
+      或英文别名：high:0.4,mid:0.3,low:0.2,poor:0.1
+    返回严格四选一文案的比例字典；非法或缺失自动均分。
+    """
+    default = {LEVELS[0]:0.25, LEVELS[1]:0.25, LEVELS[2]:0.25, LEVELS[3]:0.25}
+    if not text:
+        return default
+    try:
+        kvs = [x.strip() for x in text.split(",") if x.strip()]
+        acc = {}
+        for kv in kvs:
+            if ":" not in kv:
+                continue
+            k, v = [t.strip() for t in kv.split(":", 1)]
+            k_std = LEVEL_ALIAS.get(k, k)
+            if k_std not in STRICT_ALLOWED_STRINGS:
+                continue
+            acc[k_std] = float(v)
+        if not acc: return default
+        s = sum(acc.values())
+        if s <= 0: return default
+        for k in list(acc.keys()):
+            acc[k] = acc[k] / s
+        for l in LEVELS:
+            acc.setdefault(l, 0.0)
+        return acc
+    except:
+        return default
+
+# ================== LLM 调用与解析 ==================
 def call_llm(messages: List[Dict[str, Any]], max_tokens=900, temperature=0.95) -> str:
     url = f"{AIECNU_BASE_URL.rstrip('/')}/chat/completions"
     payload = {"model": MODEL, "messages": messages, "max_tokens": max_tokens, "temperature": temperature}
@@ -130,8 +174,12 @@ class SimilarityGate:
         if not text: return
         self.pool.append(_simhash64(text))
 
-# ================== 轻量过滤（体裁/正则/显式命中） ==================
+# ================== 轻量过滤（体裁/正则/显式命中 + 乐观偏置抑制） ==================
 AGENT_PARAGRAPH_FIELDS = ["价值观","创造力","心理健康"]
+VAL_DIMS7 = ["道德修养","身心健康","法治意识","社会责任","政治认同","文化素养","家庭观念"]
+LVL_WORDS = ["高","较高","中上","中","较低","低"]
+CRE_DIMS8 = ["流畅性","新颖性","灵活性","可行性","问题发现","问题分析","提出方案","改善方案"]
+PSY_KEYS  = ["综合心理状况","幸福指数","抑郁风险","焦虑风险"]
 
 def _is_single_paragraph(s: str) -> bool:
     if not isinstance(s, str): return False
@@ -141,11 +189,37 @@ def _is_single_paragraph(s: str) -> bool:
 def _has_any(s: str, kws: List[str]) -> bool:
     return any(kw in s for kw in kws)
 
+def _count_levels(text: str) -> Dict[str, int]:
+    cnt = {k:0 for k in LVL_WORDS}
+    for k in LVL_WORDS:
+        cnt[k] = len(re.findall(re.escape(k), text))
+    return cnt
+
+def _count_lowish(text: str) -> int:
+    # 统计“中/较低/低”（不含“中上”）
+    n_mid = len(re.findall(r"(?<!中)中(?!上)", text))
+    n_low = len(re.findall(r"较低|低", text))
+    return n_mid + n_low
+
+def _extract_dim_levels(text: str, dims: List[str]) -> Dict[str, str]:
+    """
+    近似抽取每个维度的等级词（正则启发式），用于八维/七维粗校验。
+    """
+    res = {}
+    for d in dims:
+        # 维度名后若干字符内的等级词
+        m = re.search(d + r".{0,12}?(高|较高|中上|中(?!上)|较低|低)", text)
+        if m: res[d] = m.group(1)
+    return res
+
 def _light_filter(item: Dict[str, Any]) -> Tuple[bool, List[str]]:
     reasons = []
+    # 1) 必填键
     for k in ["姓名","年龄","性别","年级","人格","擅长科目","薄弱科目","学术水平","价值观","创造力","心理健康","代理名","发展阶段","社交关系"]:
         if k not in item or not non_empty(item[k]):
             reasons.append(f"缺字段或为空：{k}")
+
+    # 2) 学术水平+代理名+段落体裁
     if item.get("学术水平") not in STRICT_ALLOWED_STRINGS:
         reasons.append("学术水平非四选一固定文案")
     if not re.match(AGENT_ID_REGEX, str(item.get("代理名",""))):
@@ -153,20 +227,69 @@ def _light_filter(item: Dict[str, Any]) -> Tuple[bool, List[str]]:
     for f in AGENT_PARAGRAPH_FIELDS:
         if not _is_single_paragraph(item.get(f,"")):
             reasons.append(f"{f} 非单段体裁")
+
+    # 3) 价值观：七维&等级词 + 乐观偏置抑制
     val = item.get("价值观","")
-    dims7 = ["道德修养","身心健康","法治意识","社会责任","政治认同","文化素养","家庭观念"]
-    lvl_words = ["高","较高","中","中上","较低","低"]
-    if not _has_any(val, dims7): reasons.append("价值观未见七维显式名词（至少缺大部分）")
-    if not _has_any(val, lvl_words): reasons.append("价值观未见等级词")
+    if not _has_any(val, VAL_DIMS7): reasons.append("价值观未见七维显式名词（至少缺大部分）")
+    if not _has_any(val, LVL_WORDS): reasons.append("价值观未见等级词")
+    # 锚定驱动的下调要求
+    target = item.get("_采样约束",{}).get("目标学术水平") if isinstance(item.get("_采样约束"), dict) else None
+    lowish_need = 0
+    if target in [LEVELS[1]]:      # 中
+        lowish_need = 1
+    elif target in [LEVELS[2]]:    # 低
+        lowish_need = 2
+    elif target in [LEVELS[3]]:    # 差
+        lowish_need = 3
+    if lowish_need>0 and _count_lowish(val) < lowish_need:
+        reasons.append(f"价值观等级分布过高（锚={target or '无'}）：需要≥{lowish_need}处“中/较低/低”")
+
+    # 4) 创造力：八维 + 雷达 + 乐观偏置抑制 + 内部一致性
     cre = item.get("创造力","")
-    dims8 = ["流畅性","新颖性","灵活性","可行性","问题发现","问题分析","提出方案","改善方案"]
-    if not _has_any(cre, dims8): reasons.append("创造力未见八维显式名词（至少缺大部分）")
+    if not _has_any(cre, CRE_DIMS8): reasons.append("创造力未见八维显式名词（至少缺大部分）")
     if "雷达" not in cre and "总结" not in cre: reasons.append("创造力未见雷达总结提示词")
+    dimlv = _extract_dim_levels(cre, CRE_DIMS8)
+    # 至少 N 个维度为“中及以下”（不含“中上”）
+    lowish_cre = sum(1 for v in dimlv.values() if v in ["中","较低","低"])
+    need = 0
+    if target in [LEVELS[1]]:  # 中
+        need = 2
+    elif target in [LEVELS[2]]:  # 低
+        need = 3
+    elif target in [LEVELS[3]]:  # 差
+        need = 4
+    if need>0 and lowish_cre < need:
+        reasons.append(f"创造力八维整体偏高（锚={target or '无'}）：要求≥{need}个维度为“中及以下”，当前={lowish_cre}")
+    # 原有一致性：可行性低→提出方案≤中
+    if ("可行性" in dimlv and dimlv.get("可行性") in ["较低","低"]) and \
+       ("提出方案" in dimlv and dimlv.get("提出方案") in ["高","较高","中上"]):
+        reasons.append("创造力一致性：可行性低但‘提出方案’高")
+
+    # 5) 心理健康：关键槽位 + 乐观偏置抑制（四槽位至少出现中/较低/低；风险不能全低于‘中’的反面）
     psy = item.get("心理健康","")
-    psy_kws = ["综合心理状况","幸福指数","抑郁风险","焦虑风险","信息不足或未见显著症状","背景","应对","支持","家庭","同伴","老师"]
-    if not _has_any(psy, psy_kws): reasons.append("心理健康未见核心槽位关键词")
-    ok = len(reasons) == 0
-    return ok, reasons
+    if not _has_any(psy, ["综合心理状况","幸福指数","抑郁风险","焦虑风险","信息不足或未见显著症状","背景","应对","支持","家庭","同伴","老师"]):
+        reasons.append("心理健康未见核心槽位关键词")
+    # 粗抽四槽位等级
+    psy_map = {}
+    for k in PSY_KEYS:
+        m = re.search(k + r".{0,12}?(高|较高|中上|中(?!上)|较低|低|轻度|中度|重度|低风险)", psy)
+        if m: psy_map[k] = m.group(1)
+    if target in [LEVELS[2], LEVELS[3]]:  # 低/差
+        # 要求：综合心理状况/幸福指数 至少一个为“中及以下”；抑郁/焦虑风险不得都写成“低/低风险”
+        cnt_mid_or_low = sum(1 for k in ["综合心理状况","幸福指数"] if psy_map.get(k) in ["中","较低","低"])
+        if cnt_mid_or_low < 1:
+            reasons.append("心理健康与锚不符：综合心理状况/幸福指数至少1处需“中或较低/低”")
+        risk_lowish = 0
+        for k in ["抑郁风险","焦虑风险"]:
+            v = psy_map.get(k, "")
+            if any(x in v for x in ["轻度","中度"]):  # 允许轻/中
+                risk_lowish += 1
+        # 若两项都显式“低/低风险”，在‘低/差’锚下不合理
+        if "抑郁风险" in psy_map and "焦虑风险" in psy_map:
+            both_low = all(("低" in psy_map[k] or "低风险" in psy_map[k]) for k in ["抑郁风险","焦虑风险"])
+            if both_low:
+                reasons.append("心理健康与锚不符：抑郁/焦虑风险不应双双为‘低/低风险’")
+    return len(reasons) == 0, reasons
 
 # ================== 协作基石：白板与讨论（支持IO日志） ==================
 REQUIRED_KEYS = ["id","姓名","年龄","擅长科目","薄弱科目","年级","人格","社交关系",
@@ -185,7 +308,6 @@ class Whiteboard:
             self.facts[k] = v
 
     def log(self, speaker: str, content: str):
-        # speaker 例： 学业画像→prompt / 学业画像←output / Validator(issues) 等
         self.discussion.append({"speaker": speaker, "content": content})
 
     def serialize_for_agent(self) -> str:
@@ -199,7 +321,7 @@ AGENT_PREAMBLE = """你是一个与其他智能体协作的“学生画像”生
 - 若被要求修订，只改你负责的键；不留空；保证与其它字段逻辑一致。
 - 姓名等中文；数字与百分位请用中文语境书写（如“前10%”）。
 - 不要输出任何多余说明文字。只输出 JSON。
-- 如白板中存在“_采样约束”，请尽量满足其中的“年级”“性别”“优势学科偏向”要求（若与事实不符，应以自然一致性为优先）。
+- 如白板中存在“_采样约束”，请严格遵循其中的“年级”“性别”“优势学科偏向”“目标学术水平”等要求；若发生冲突，以采样约束为准并保持整体一致性。
 """
 
 RESP_FIELDS = {
@@ -210,22 +332,22 @@ RESP_FIELDS = {
     "身心健康": ["心理健康"]
 }
 
-# ================== 各 Agent（加入采样约束提示 + 多音节代理名示例 + IO日志） ==================
 def _pack_prompt(instruction: str, wb: Whiteboard) -> str:
     return f"【INSTRUCTION】\n{instruction}\n\n【WHITEBOARD】\n{wb.serialize_for_agent()}"
 
+# ================== 各 Agent（含自适应锚指引 + IO日志） ==================
 def agent_scholar(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,Any]:
     sampling = wb.read().get("_采样约束", {})
     hint = ""
     if sampling:
-        hint = f"\n采样约束（尽量遵循）：年级={sampling.get('年级','未指定')}，性别={sampling.get('性别','未指定')}。"
+        hint = f"\n采样约束（遵循）：年级={sampling.get('年级','未指定')}，性别={sampling.get('性别','未指定')}，目标学术水平={sampling.get('目标学术水平','无')}。"
     instruction = f"""{AGENT_PREAMBLE}{hint}
 你负责键：{RESP_FIELDS["学籍与发展阶段"]}
 任务模式：{mode}
 多样性种子：{seed}
 
 生成与约束（必须）：
-- 年龄 6~18；年级与年龄匹配（允许±1年跳级/留级但需与其他段落一致）；
+- 年龄 6~18；年龄**必须是一个阿拉伯数字**，年级与年龄匹配（允许±1年跳级/留级但需与其他段落一致）；
 - 发展阶段对象必须含三键：皮亚杰认知发展阶段、埃里克森心理社会发展阶段、科尔伯格道德发展阶段；
 - 代理名格式（**多音节支持**）：姓 1~2 音节、名 1~3 音节；每个音节为“拼音小写+声调数字(1-5)”；姓与名之间用下划线；示例：
   - 单姓单名：zhang1_shuang3
@@ -246,6 +368,9 @@ def agent_academic(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,A
     sampling = wb.read().get("_采样约束", {})
     prefer = sampling.get("优势学科偏向")
     prefer_str = f"请优先使“擅长科目”覆盖该簇中的至少1门：{prefer}。" if prefer else ""
+    target_level = sampling.get("目标学术水平")
+    target_line = f"【强约束】本样本的“学术水平”必须严格等于：{target_level}；不得改为其它档位。" if target_level else "（无目标锚）"
+
     instruction = f"""{AGENT_PREAMBLE}
 你负责键：{RESP_FIELDS["学业画像"]}
 任务模式：{mode}
@@ -259,6 +384,8 @@ def agent_academic(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,A
   3) "低：成绩全校排名前30%至50%"
   4) "差：成绩全校排名后50%"
 - {prefer_str}
+- {target_line}
+
 仅输出 JSON（只含“擅长科目”“薄弱科目”“学术水平”三个键）。
 """
     messages = [
@@ -269,21 +396,33 @@ def agent_academic(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,A
     out = call_llm(messages, max_tokens=600, temperature=0.9)
     wb.log("学业画像←output", out)
     data = try_json(out)
+
+    # 兜底归一 + 强制对齐目标锚（如存在）
     if isinstance(data, dict):
         lvl = data.get("学术水平")
         if isinstance(lvl, str):
             for k, v in LEVEL_SET_STRICT.items():
                 if lvl.startswith(k) or k in lvl:
                     data["学术水平"] = v; break
+        if target_level and data.get("学术水平") != target_level:
+            data["学术水平"] = target_level
     return data if isinstance(data, dict) else {}
 
 def agent_values(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,Any]:
+    sampling = wb.read().get("_采样约束", {})
+    target = sampling.get("目标学术水平")
+    adapt = ""
+    if target in [LEVELS[1], LEVELS[2], LEVELS[3]]:
+        adapt = ("- 【随学术锚自适应】当目标为“中/低/差”时，七维中的等级词应呈**不均衡但包含若干“中/较低/低”**，"
+                 "避免全高/较高；并给出与之匹配的背景化根据（如学习习惯/反馈/社团表现等）。")
     instruction = f"""{AGENT_PREAMBLE}
 你负责键：{RESP_FIELDS["人格与价值观"]}
 任务模式：{mode}
 多样性种子：{seed}
 
-输出体裁（强约束）：单段连续自然语言；**覆盖七维并有等级词**（道德修养、身心健康、法治意识、社会责任、政治认同、文化素养、家庭观念）；给出背景化依据。仅输出 JSON。
+输出体裁（强约束）：单段连续自然语言；**覆盖七维并有等级词**（道德修养、身心健康、法治意识、社会责任、政治认同、文化素养、家庭观念）；给出背景化依据。
+{adapt}
+仅输出 JSON。
 """
     messages = [
         {"role":"developer","content":instruction},
@@ -295,6 +434,12 @@ def agent_values(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,Any
     return try_json(out)
 
 def agent_social_creative(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,Any]:
+    sampling = wb.read().get("_采样约束", {})
+    target = sampling.get("目标学术水平")
+    adapt = ""
+    if target in [LEVELS[1], LEVELS[2], LEVELS[3]]:
+        adapt = ("- 【随学术锚自适应】当目标为“中/低/差”时，八维等级分布**必须包含若干“中/较低/低”**（至少2/3/4个维度），"
+                 "并保持可行性与提出方案的一致性；末尾雷达总结据此概括强弱。")
     instruction = f"""{AGENT_PREAMBLE}
 你负责键：{RESP_FIELDS["社交与创造力"]}
 任务模式：{mode}
@@ -302,6 +447,7 @@ def agent_social_creative(wb: Whiteboard, seed: str, mode: str="propose") -> Dic
 
 社交关系：单段（160~260字），背景→关键事件→影响；不得换行/条列。
 创造力：单段；**八维（流畅性/新颖性/灵活性/可行性/问题发现/问题分析/提出方案/改善方案 各有等级词）+ 雷达总结**；八维不得全同档；若“可行性”较低/低，则“提出方案”不高于中等。
+{adapt}
 仅输出 JSON。
 """
     messages = [
@@ -314,12 +460,19 @@ def agent_social_creative(wb: Whiteboard, seed: str, mode: str="propose") -> Dic
     return try_json(out)
 
 def agent_health(wb: Whiteboard, seed: str, mode: str="propose") -> Dict[str,Any]:
+    sampling = wb.read().get("_采样约束", {})
+    target = sampling.get("目标学术水平")
+    adapt = ""
+    if target in [LEVELS[2], LEVELS[3]]:
+        adapt = ("- 【随学术锚自适应】当目标为“低/差”时，“综合心理状况/幸福指数”中至少一项宜为“中或较低/低”；"
+                 "抑郁/焦虑风险避免双双‘低’；仍须保持**非诊断化**与“可支持、可改善”的教育语境。")
     instruction = f"""{AGENT_PREAMBLE}
 你负责键：{RESP_FIELDS["身心健康"]}
 任务模式：{mode}
 多样性种子：{seed}
 
 心理健康：单段；依次内嵌 概述→性格特征(≥2)→综合心理状况/幸福指数/抑郁风险/焦虑风险→心理疾病（如无写“信息不足或未见显著症状”）→背景故事→支撑与应对；非诊断化；与价值观“身心健康”一致。
+{adapt}
 仅输出 JSON。
 """
     messages = [
@@ -337,16 +490,24 @@ def agent_validator(wb: Whiteboard, seed: str) -> Dict[str, Any]:
 你只输出 JSON，键为 issues 与 final_ready。不要输出多余文字。
 """
     rules = f"""规则参考（必须）：
-- R1 年龄↔年级常模（允许±1年）。
-- R2 发展阶段与年龄一致性。
+- R1 年龄↔年级常模：6-7一年级；7-8二；8-9三；9-10四；10-11五；11-12六；12-13初一；13-14初二；14-15初三；15-16高一；16-17高二；17-18高三（允许±1年内偏差）。
+- R2 发展阶段与年龄：~12岁以下多为“具体运算”；~12岁以上“形式运算”。埃里克森：6-12勤奋vs自卑；12-18身份vs角色混乱；科尔伯格：~10前习俗、~10-15习俗、≥15可向后习俗过渡。
 - R3 科目集合不交叉、且均非空。
-- R3b 学术水平**严格四选一**：{sorted(list(STRICT_ALLOWED_STRINGS))}
-- R4 创造力八维有起伏；若“可行性”较低/低→“提出方案”≤中等。
-- R5 价值观积极稳健 ↔ 心理段落不得出现重度临床术语/严重功能受损。
-- R6 代理名正则：{AGENT_ID_REGEX}
-- R7 必填键不可为空。
-- R8~R14：段落体裁与结构位点完整性（七维价值观、八维创造力+雷达、心理健康关键槽位与非诊断化）。
-- R15 学术水平不在集合→要求学业画像重写为四选一固定文案。
+- R4 创造力八维等级需有起伏，避免全部相同；若“可行性”较低/低，则“提出方案”不高于中等。
+- R5 价值观积极稳健时，心理段落不得出现严重功能受损或重度临床术语。
+- R6 代理名正则：^[a-z]+[1-5]?_[a-z]+[1-5]?$
+- R7 所有必填键不可为空：id, 姓名, 年龄, 擅长科目, 薄弱科目, 年级, 人格, 社交关系, 学术水平, 性别, 发展阶段, 代理名, 价值观, 创造力, 心理健康。
+- R8 价值观：必须覆盖七维（道德修养/身心健康/法治意识/社会责任/政治认同/文化素养/家庭观念），每维含可识别等级词；允许自然顺序与自由句法，但需可定位。
+- R9 创造力：必须含 概述 + 八维（流畅性/新颖性/灵活性/可行性/问题发现/问题分析/提出方案/改善方案，逐维有等级词与简短依据）+ 雷达总结。
+- R10 心理健康：必须含 概述 + 性格特征(≥2点) + 三维度（综合心理状况/幸福指数/抑郁风险与焦虑风险） + 心理疾病（若无写“信息不足或未见显著症状”，若有写“诊断或倾向/功能影响/当前支持与处理”） + 背景故事 + 支撑与应对。
+- R11 一致性：
+    · 若价值观“身心健康”为“较高/高”，则心理“综合心理状况”≥中等，且“抑郁/焦虑风险”≤中度；如涉及疾病，需“已管理、功能基本稳定”；
+    · 家庭观念较高与独立性不冲突，应呈现“互动支持、边界清晰”；
+    · 价值观/社交/学业叙事互相支撑，不得矛盾（如社交回避 vs 频繁协作）。
+- R12 非诊断化语言：避免“重度抑郁/双相/用药/住院”等重临床表述；允许“倾向/轻度/节点性/阶段性/可管理/建议咨询”等。
+- R13 可读性与避免模板：内容应自然连贯，拒绝流水账与机械复述；若“等级词”缺失或维度缺失，提出修订。
+- R14 段落化体裁：价值观/创造力/心理健康必须为**单段连续自然语言**，不得使用列表、编号、项目符号或多段换行；如检测到“\\n\\n”、“1.”、“- ”、“• ”等条列痕迹，应要求对应Owner重写为单段。
+- R15 若“学术水平”不在允许集合，必须要求“学业画像”Owner重写并替换为**严格四选一固定文案**。
 输出：issues: [{{code, desc, owner, fields, hint}}], final_ready: bool
 """
     messages = [
@@ -357,17 +518,17 @@ def agent_validator(wb: Whiteboard, seed: str) -> Dict[str, Any]:
     out = call_llm(messages, max_tokens=1100, temperature=0.2)
     wb.log("Validator←output", out)
     data = try_json(out)
-    # 本地兜底（学术水平、代理名）
+    # 本地兜底（学术水平、代理名、与目标锚一致性）
     try:
         lvl = wb.read().get("学术水平", "")
         if lvl not in STRICT_ALLOWED_STRINGS:
             issues = data.get("issues", []) if isinstance(data, dict) else []
             issues.append({
-                "code":"R3b",
+                "code":"R14",
                 "desc":"学术水平未严格匹配允许集合。",
                 "owner":"学业画像",
                 "fields":["学术水平"],
-                "hint":"替换为固定文案之一：'高：成绩全校排名前10%' / '中：成绩全校排名前10%至30%' / '低：成绩全校排名前30%至50%' / '差：成绩全校排名后50%'"})
+                "hint":"替换为四选一固定文案：'高：成绩全校排名前10%' / '中：成绩全校排名前10%至30%' / '低：成绩全校排名前30%至50%' / '差：成绩全校排名后50%'"})
             data = {"issues": issues, "final_ready": False}
         agent_id = wb.read().get("代理名", "")
         if not re.match(AGENT_ID_REGEX, str(agent_id)):
@@ -379,9 +540,19 @@ def agent_validator(wb: Whiteboard, seed: str) -> Dict[str, Any]:
                 "fields":["代理名"],
                 "hint":"示例：zhang1_shuang3 / li1_huan4ying1 / ou3yang2_ming2hao3"})
             data = {"issues": issues, "final_ready": False}
+        sampling = wb.read().get("_采样约束", {})
+        target_level = sampling.get("目标学术水平")
+        if target_level and lvl != target_level:
+            issues = data.get("issues", []) if isinstance(data, dict) else []
+            issues.append({
+                "code":"R14-anchored",
+                "desc":f"与采样目标学术水平不一致（期望：{target_level}，实际：{lvl}）。",
+                "owner":"学业画像",
+                "fields":["学术水平"],
+                "hint":f"将“学术水平”改为目标档位：{target_level}；其余字段做轻微一致性修订。"})
+            data = {"issues": issues, "final_ready": False}
     except Exception:
         pass
-    # 记录 issues JSON（便于UI解析）
     try:
         wb.log("Validator(issues)", json.dumps(data.get("issues", []), ensure_ascii=False))
     except Exception:
@@ -465,10 +636,10 @@ class Orchestrator:
         if lvl not in STRICT_ALLOWED_STRINGS:
             raise RuntimeError("学术水平不符合严格四选一标准，请重试。")
 
-        final.pop("_采样约束", None)
+        # 注意：在落盘前保留 _采样约束 用于在线过滤的锚参考。落盘时你也可以选择 pop 掉。
         return final, wb.discussion
 
-# ================== QuotaScheduler：生成目标配额槽位 ==================
+# ================== QuotaScheduler：按比例生成“目标学术水平” ==================
 def _default_quota(n_total: int) -> List[Dict[str,Any]]:
     slots = []
     triplets = [(g,s,c) for g in GRADES for s in GENDERS for c in SUBJ_CLUSTERS.keys()]
@@ -478,8 +649,33 @@ def _default_quota(n_total: int) -> List[Dict[str,Any]]:
     random.shuffle(slots)
     return slots
 
+def _cycle_levels_by_mix(n_total: int, mix: Dict[str, float]) -> List[str]:
+    import math, random
+    targets = []
+    alloc = {k: int(round(mix.get(k,0.0) * n_total)) for k in STRICT_ALLOWED_STRINGS}
+    diff = n_total - sum(alloc.values())
+    if diff != 0:
+        order = sorted(STRICT_ALLOWED_STRINGS, key=lambda k: mix.get(k,0.0), reverse=True)
+        i = 0
+        while diff != 0:
+            k = order[i % len(order)]
+            if diff > 0:
+                alloc[k] += 1; diff -= 1
+            else:
+                if alloc[k] > 0:
+                    alloc[k] -= 1; diff += 1
+            i += 1
+    for k, c in alloc.items():
+        targets.extend([k] * max(0, c))
+    random.shuffle(targets)
+    if len(targets) < n_total:
+        pad = list(STRICT_ALLOWED_STRINGS)
+        while len(targets) < n_total:
+            targets.append(random.choice(pad))
+    return targets[:n_total]
+
 class QuotaScheduler:
-    def __init__(self, n_total: int, user_quota_json: Optional[str] = None):
+    def __init__(self, n_total: int, user_quota_json: Optional[str] = None, level_mix: Optional[Dict[str,float]] = None):
         if user_quota_json:
             try:
                 arr = json.loads(user_quota_json)
@@ -489,6 +685,10 @@ class QuotaScheduler:
                 self.slots = _default_quota(n_total)
         else:
             self.slots = _default_quota(n_total)
+        mix = level_mix or {LEVELS[0]:0.25, LEVELS[1]:0.25, LEVELS[2]:0.25, LEVELS[3]:0.25}
+        targets = _cycle_levels_by_mix(n_total, mix)
+        for i, t in enumerate(targets):
+            self.slots[i]["目标学术水平"] = t
         self.idx = 0
         self.total = n_total
     def has_next(self) -> bool:
@@ -557,22 +757,28 @@ def _load_chunk_preview(run_dir: str, chunk_idx: int, max_items: int = 6) -> Lis
     return lines[-max_items:]
 
 # ================== UI ==================
-st.set_page_config(page_title="多智能体画像生成（带在线前置控制+交互控制台）", page_icon="🧩", layout="wide")
-st.title("🧩 学生画像 · 多智能体实时协作（在线前置控制 + 交互控制台）")
+st.set_page_config(page_title="多智能体画像生成（前置控制+交互控制台+分布锚定）", page_icon="🧩", layout="wide")
+st.title("🧩 学生画像 · 多智能体实时协作（前置控制 + 交互控制台 + 分布锚定）")
 
 with st.sidebar:
     st.subheader("在线前置控制")
     simhash_th = st.number_input("相似度阈（SimHash汉明距离，≤视为过近需重生）", 0, 16, SIMHASH_HAMMING_THRESHOLD_DEFAULT)
     user_quota_json = st.text_area("自定义配额JSON（可选）", placeholder='[{"年级":"初一","性别":"女","优势学科偏向":["英语","生物"]}]')
     show_console = st.toggle("显示交互控制台（Prompt/Output/Issues）", value=True)
-    st.caption("留空配额则按年级×性别×学科簇均衡默认配额。")
+    # 新增：学术水平比例
+    level_mix_text = st.text_input(
+        "学术水平比例（高/中/低/差），如：高:0.25,中:0.25,低:0.25,差:0.25",
+        value="高:0.25,中:0.25,低:0.25,差:0.25"
+    )
+    st.caption("比例作为采样先验写入白板，驱动四档分布；并联动下游维度避免‘清一色偏高’。")
 
 with st.expander("说明", expanded=False):
     st.markdown("""
 - **配额分桶调度**、**轻量过滤**、**SimHash 去同质化**；不过关即重采；  
 - 自动落盘：`output/<run_id>/students_chunk_{i}.jsonl`；失败样本 `failures.jsonl`；  
 - 学术水平四选一（固定文案）；代理名：姓 1–2 音节、名 1–3 音节，每节“拼音+1~5 声调”，下划线分隔。  
-- 新增**交互控制台**：逐步展示每个 Agent 的 Prompt/Output，以及 Validator 的 issues（表格）。  
+- **分布锚定**：侧边栏控制“高/中/低/差”比例；`agent_academic` 强制输出、`Validator` 兜底一致；  
+- **乐观偏置抑制**：价值观/创造力/心理健康随锚自适应，轻量过滤中要求“中/较低/低”的**最小计数**（目标为“中/低/差”时生效）。  
 """)
 
 left, right = st.columns([1,3])
@@ -602,6 +808,7 @@ if "last_dialog" not in st.session_state: st.session_state.last_dialog = []
 if "last_error" not in st.session_state: st.session_state.last_error = None
 if "quota" not in st.session_state: st.session_state.quota = None
 if "sim_gate" not in st.session_state: st.session_state.sim_gate = SimilarityGate(threshold=simhash_th)
+if "level_mix" not in st.session_state: st.session_state.level_mix = _parse_level_mix(level_mix_text)
 
 # ----------- 控制按钮 -----------
 if start_btn:
@@ -619,7 +826,12 @@ if start_btn:
     st.session_state.last_item = None
     st.session_state.last_dialog = []
     st.session_state.last_error = None
-    st.session_state.quota = QuotaScheduler(st.session_state.total_n, user_quota_json=user_quota_json)
+    st.session_state.level_mix = _parse_level_mix(level_mix_text)
+    st.session_state.quota = QuotaScheduler(
+        st.session_state.total_n,
+        user_quota_json=user_quota_json,
+        level_mix=st.session_state.level_mix
+    )
     st.session_state.sim_gate = SimilarityGate(threshold=simhash_th)
     st.success(f"输出目录：{st.session_state.run_dir}")
     _st_rerun()
@@ -674,7 +886,6 @@ if st.session_state.running:
             st.subheader("🖧 交互控制台（本条）")
             tabs = st.tabs(["学籍与发展阶段", "学业画像", "人格与价值观", "社交与创造力", "身心健康", "Validator", "Whiteboard RAW"])
 
-            # 按 Agent 过滤日志的小工具
             def _show_logs(agent_key: str):
                 logs = [m for m in st.session_state.last_dialog if m["speaker"].startswith(agent_key)]
                 if not logs:
@@ -695,9 +906,7 @@ if st.session_state.running:
             with tabs[4]:
                 _show_logs("身心健康")
             with tabs[5]:
-                # 展示 Validator prompt/output 与 issues 表
                 _show_logs("Validator")
-                # 解析最近一次 issues JSON
                 import pandas as pd
                 issues_rows = []
                 for m in reversed(st.session_state.last_dialog):
@@ -713,7 +922,6 @@ if st.session_state.running:
                 else:
                     st.info("未捕获到结构化 issues。")
             with tabs[6]:
-                # 全量日志（便于排查）
                 for m in st.session_state.last_dialog[-40:]:
                     st.markdown(f"**{m['speaker']}**")
                     st.code(m["content"])
@@ -750,7 +958,7 @@ if st.session_state.running:
             try:
                 item, dialog = orch.run_one(target_sid, sampling_hint=slot)
 
-                # 轻量过滤
+                # 轻量过滤（含乐观偏置抑制）
                 ok, reasons = _light_filter(item)
                 if not ok:
                     error_trace = f"轻量过滤不通过：{'; '.join(reasons)}"
