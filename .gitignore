@@ -1,2 +1,4 @@
-/output/run_*
+/output/*
 /eval/*
+batch_app.py
+batch_app_v0.py

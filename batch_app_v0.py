@@ -23,9 +23,9 @@ from typing import Any, Dict, List, Tuple, Optional
 import streamlit as st
 import requests
 
-# ==================  API ==================
-AIECNU_API_KEY = "sk-xxxxxxxxxxxxxxxxxxxx"
-AIECNU_BASE_URL = "http://xxxxxxxxxxxx"
+# ================== 你的 API（按要求硬编码） ==================
+AIECNU_API_KEY = "sk-FXzwhYkmwTgmjinGU5iBwYBhIwLbvLVcKtfwXsfLOkQcQbnm"
+AIECNU_BASE_URL = "http://49.51.37.239:3006/v1"
 MODEL = "gpt-4.1"
 HEADERS = {"Content-Type": "application/json", "Authorization": f"Bearer {AIECNU_API_KEY}"}
 
